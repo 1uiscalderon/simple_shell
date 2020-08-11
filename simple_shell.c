@@ -51,7 +51,8 @@ char **tokenize(char *line)
 	{
 		nodes[i] = node;
 		i++;
+		node = strtok(NULL, " ");
 	}
 	nodes[i] = NULL;
-return (nodes);
+	return (nodes);
 }
