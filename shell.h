@@ -8,5 +8,5 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define BUFFSIZE 32
+#define BUFFSIZE 10
 #endif

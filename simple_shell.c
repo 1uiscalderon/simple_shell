@@ -52,5 +52,6 @@ char **tokenize(char *line)
 		nodes[i] = node;
 		i++;
 	}
-	
+	nodes[i] = NULL;
+return (nodes);
 }
