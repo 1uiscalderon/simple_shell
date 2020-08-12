@@ -8,7 +8,7 @@ int main(int argc, char *argv[], char *env[])
 	char *token;
 	(void)argc;
 	(void)argv;
-	/*loop hasta que reciba el signal de salida*/
+
 	do
 	{
 		/*imprimir prompt*/
@@ -20,9 +20,10 @@ int main(int argc, char *argv[], char *env[])
 		/*crear el proceso hijo*/
 		start_new_process(token_array, env);
 		/*liberar token*/
-		free(command_line);
-		free(token_array);
+
 	} while (1); /*REVISAR*/
+	free(command_line);
+	free(token_array);
 	return (0);
 }
 char *read_line(void)
