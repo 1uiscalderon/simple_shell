@@ -10,8 +10,9 @@
 #include <string.h>
 
 char *read_line(void);
-char **tokenize(char *line);
+char **tokenize(char *line, char **token_array, char *token);
 int start_new_process(char **arguments, char **env);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void free_pointer_array(char **token_array);
 
 #endif

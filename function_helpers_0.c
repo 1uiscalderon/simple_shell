@@ -47,3 +47,11 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	p1 = (void *)p;
 	return (p1);
 }
+
+void free_pointer_array(char **token_array)
+{
+	int i;
+	for (i = 0; token_array[i] != NULL; i++)
+		free(token_array[i]);
+	free(token_array);
+}
