@@ -7,6 +7,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <string.h>
 
-#define BUFFSIZE 10
+char *read_line(void);
+char **tokenize(char *line);
+int start_new_process(char **arguments, char **env);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+
 #endif
