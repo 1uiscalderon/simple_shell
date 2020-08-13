@@ -71,6 +71,7 @@ int start_new_process(char **arguments, char **env)
 {
 	pid_t pid;
 	int status;
+	char *fake_path;
 
 	pid = fork();
 	switch (pid)
@@ -83,6 +84,8 @@ int start_new_process(char **arguments, char **env)
 		/*child process*/
 		if (execve(arguments[0], arguments, env) == -1)
 		{
+			fake_path = path(arguments, env);
+			execve(fake_path, arguments, env);
 			perror("execve error");
 			exit(EXIT_FAILURE);
 		}
