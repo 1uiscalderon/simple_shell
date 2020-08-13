@@ -1,4 +1,4 @@
-#include "shell2.h"
+#include "shell.h"
 
 char **find_path(char *name, char **envp)
 {
