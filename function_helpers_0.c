@@ -1,5 +1,10 @@
-#include "shell.h"
+#include "prueba_shell.h"
 
+void signal_handler(int n)
+{
+	if (n == SIGINT)
+		write(STDOUT_FILENO, "\n$ ", 3);
+}
 /**
  * _realloc - Reallocates a memory block using malloc and free.
  * @ptr: pointer to the old block of memory.

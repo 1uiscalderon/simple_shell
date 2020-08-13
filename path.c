@@ -2,7 +2,7 @@
 
 char **find_path(char *name, char **envp)
 {
-	char *search, *path;/*hola*/
+	char *search, *path;
 	char **array_path;
 	int i, buffsize = 32, old_buffsize = 0;
 
