@@ -1,24 +1,21 @@
-#include "shell.h"
+#include "shell2.h"
 
 char **find_path(char *name, char **envp)
 {
-	char *search;
+	char *search, *path;
 	char **array_path;
-	char *path;
-	int i = 0;
+	int i, buffsize = 32, old_buffsize = 0;
 
 	for (i = 0; envp[i] != NULL; i++)
 	{
 		search = strtok(envp[i], "=");
-		if (strcmp(name, search) == 0)
+		if (_strcmp(name, search) == 0)
 		{
 			search = strtok(NULL, "\n");
 			break;
 		}
-		else
-			free(search);
 	}
-	array_path = malloc(32 * sizeof(char *));
+	array_path = malloc(buffsize * sizeof(char *));
 	if (array_path == NULL)
 	{
 		free(search);
@@ -29,16 +26,21 @@ char **find_path(char *name, char **envp)
 	for (i = 0; path; i++)
 	{
 		array_path[i] = path;
+		if (i >= buffsize)
+		{
+			old_buffsize = buffsize;
+			buffsize += 32;
+			array_path = _realloc(array_path, old_buffsize * sizeof(char *), buffsize * sizeof(char *));
+		}
 		path = strtok(NULL, ":");
 	}
 	array_path[i] = NULL;
 	return (array_path);
 }
 
-char *path(**token_array, char *env[])
+char *path(char **token_array, char *env[])
 {
-	char **search, **abs_path, *dir;
-	(void)token_array;
+	char **search, *abs_path, *dir;
 	int i;
 
 	search = find_path("PATH", env);
@@ -48,7 +50,6 @@ char *path(**token_array, char *env[])
 		abs_path = str_concat(dir, token_array[0]);
 		if (access(abs_path, X_OK) == 0)
 		{
-			free(array_path);
 			free(dir);
 			return (abs_path);
 		}
