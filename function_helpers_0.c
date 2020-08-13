@@ -1,5 +1,10 @@
-#include "shell.h"
+#include "prueba_shell.h"
 
+void signal_handler(int n)
+{
+	if (n == SIGINT)
+		write(STDOUT_FILENO, "\n$ ", 3);
+}
 /**
  * _realloc - Reallocates a memory block using malloc and free.
  * @ptr: pointer to the old block of memory.
@@ -52,9 +57,9 @@ void free_pointer_array(char **token_array)
 {
 	int i;
 	if (token_array == NULL)
-	return;
-	
-	for (i = 0; token_array[i] != NULL; i++)
+		return;
+
+	for (i = 1; token_array[i] != NULL; i++)
 		free(token_array[i]);
 	free(token_array);
 }
