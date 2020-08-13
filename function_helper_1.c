@@ -1,4 +1,4 @@
-#include "shell2.h"
+#include "shell.h"
 
 /**
  * *_strcmp - Copies a string
@@ -15,7 +15,6 @@ int _strcmp(char *s1, char *s2)
 	res = s1[i] - s2[i];
 	return (res);
 }
-
 
 /**
  * str_concat - Concatenates two strings

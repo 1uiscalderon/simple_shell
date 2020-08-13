@@ -1,4 +1,4 @@
-#include "prueba_shell.h"
+#include "shell.h"
 
 void signal_handler(int n)
 {
