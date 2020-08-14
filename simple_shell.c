@@ -3,31 +3,35 @@
 int main(int argc, char *argv[], char *env[])
 {
 	int read = 0;
+	int is_builtin;
 	char *command_line;
 	char **token_array;
+	char *command_file;
 	(void)argc;
 	(void)argv;
 
-	signal(SIGINT, signal_handler); /*SIGINT == ^C*/
-	while (read != -1)
+	signal(SIGINT, signal_handler);
+	while (read != -1) /*REVISAR*/
 	{
 		/*imprimir prompt*/
 		write(STDOUT_FILENO, "$ ", 2);
-		/*funcaion para recibir argumentos y almacenar linea de argumentos*/
-		command_line = read_line(&read); /*REVISAR*/
-		/*tokenizar*/
+		/*funcion para almacenar linea de argumentos*/
+		command_line = read_line(&read);
 		if (command_line)
 		{
+			is_builtin = built_ins(command_line);
 			token_array = tokenize(command_line);
 			if (token_array)
 			{
+				/*llamar builtins*/
 				/*crear el proceso hijo*/
-				start_new_process(token_array, env);
-				/*liberar token*/
-				/** OJJJOOOOOOO*/
+				command_file = path(token_array, env);
+				start_new_process(token_array, env, command_file);
+				free(token_array); /*NUEVO CAMBIO*/
+													 /*if (command_file)*/
+				free(command_file);
 			}
 			free(command_line);
-			free(token_array);
 		}
 	}
 	return (0);
@@ -40,11 +44,12 @@ char *read_line(int *rd)
 	*rd = getline(&line, &size, stdin);
 	if (*rd == -1)
 	{
-		free(line);
-		perror("getline");
-		return (NULL);
+		free(line);				 /*DEBO HACER FREE??*/
+		perror("getline"); /*QUE ERROR DEBO ARROJAR?*/
+		return (NULL);		 /*DEBO RETORNAR O EXIT?*/
 	}
 	return (line);
+
 	/**
 	char *line = malloc(1024);
 	while (1)
@@ -61,8 +66,8 @@ char *read_line(int *rd)
 
 char **tokenize(char *line)
 {
-	int buffsize = 32, old_buffsize = 0, i; /*posicion del array*/
-	const char *delimiters = " \n";					/*solo por espacios ahora*/
+	int buffsize = 32, old_buffsize = 0, i;
+	const char *delimiters = " \n"; /*QUE DELIMITADORES USAR?*/
 	char *token;
 	char **token_array;
 
@@ -70,9 +75,9 @@ char **tokenize(char *line)
 	if (token_array == NULL)
 	{
 		perror("Could not allocate memory");
-		return (NULL); /*revisar*/
+		return (NULL); /*DEBO RETORNAR O EXIT?*/
 	}
-	token = strtok(line, delimiters); /* Solo dividir por espacios" */
+	token = strtok(line, delimiters);
 	for (i = 0; token; i++)
 	{
 		token_array[i] = token;
@@ -81,10 +86,11 @@ char **tokenize(char *line)
 			old_buffsize = buffsize;
 			buffsize += 32;
 			token_array = _realloc(token_array, old_buffsize * sizeof(char *), buffsize * sizeof(char *));
-			if (token_array == NULL)
+			if (token_array == NULL) /*QUE PASA SI HAY UN PROBLEMA ?*/
 			{
 				perror("Could not allocate memory");
-				return (NULL); /*revisar*/
+				free(token_array); /*VARIFICAR SI SE DEBE HACER ESE FREE*/
+				return (NULL);
 			}
 		}
 		token = strtok(NULL, delimiters);
@@ -93,32 +99,32 @@ char **tokenize(char *line)
 	return (token_array);
 }
 
-int start_new_process(char **arguments, char **env)
+int start_new_process(char **arguments, char **env, char *command_file)
 {
 	pid_t pid;
 	int status;
-	char *command_file;
 
 	pid = fork();
 	switch (pid)
 	{
 	case -1:
-		/*error in fork*/
 		perror("fork error");
-		exit(EXIT_FAILURE);
+		return (0);
 	case 0:
-		/*child process*/
 		if (execve(arguments[0], arguments, env) == -1)
 		{
-			command_file = path(arguments, env);
-			if (execve(command_file, arguments, env) == -1)
+			if (command_file)
 			{
-				perror("execve error");
-				return (0);
+				if (execve(command_file, arguments, env) == -1)
+				{
+					free(command_file), perror("execve error");
+					exit(EXIT_FAILURE);
+				}
 			}
+			perror("execve error");
+			exit(EXIT_FAILURE);
 		}
 	default:
-		/*parent process*/
 		do
 		{
 			if (waitpid(pid, &status, WUNTRACED) == -1)

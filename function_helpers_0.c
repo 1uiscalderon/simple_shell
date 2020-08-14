@@ -42,7 +42,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 	else if (new_size < old_size)
 	{
-		p = malloc(new_size);
+		p = malloc(new_size); /*ES NECESARIO LIBERAR ptr?*/
 		if (p == NULL)
 			return (NULL);
 		for (i = 0; i < new_size; i++)
