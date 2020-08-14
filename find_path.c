@@ -1,28 +1,28 @@
 #include "shell.h"
 
-char **find_path(char *name, char **envp)
+char **find_path(char **envp)
 {
-	char *search = NULL, *path = NULL;
+	char *path_var = NULL, *path = NULL;
 	char **array_path = NULL;
 	int i, buffsize = 32, old_buffsize = 0;
 
 	for (i = 0; envp[i] != NULL; i++)
 	{
-		search = strtok(envp[i], "=");
-		if (_strcmp(name, search) == 0)
+		path_var = strtok(envp[i], "=");
+		if (_strcmp("PATH", path_var) == 0) /*ELIMINE VARIABLE Y LA CONVERTI EN STRING LITERAL*/
 		{
-			search = strtok(NULL, "\n");
-			break;
+			path_var = strtok(NULL, "\n");
+			break; /* QUE PASA SI NO ENCUENTRA PATH??*/
 		}
 	}
 	array_path = malloc(buffsize * sizeof(char *));
 	if (array_path == NULL)
 	{
-		free(search);
+		free(path_var);
 		perror("Could not allocate memory");
-		exit(EXIT_FAILURE); /*revisar*/
+		return (0); /*revisar*/
 	}
-	path = strtok(search, ":");
+	path = strtok(path_var, ":");
 	for (i = 0; path; i++)
 	{
 		array_path[i] = path;
@@ -34,7 +34,8 @@ char **find_path(char *name, char **envp)
 			if (array_path == NULL)
 			{
 				perror("Could not allocate memory");
-				return (NULL); /*revisar*/
+				free(array_path); /*ES NECESARIO LIBERAR?*/
+				return (NULL);
 			}
 		}
 		path = strtok(NULL, ":");
@@ -48,7 +49,7 @@ char *path(char **token_array, char *env[])
 	char **dir_array = NULL, *dir = NULL, *possible_file = NULL;
 	int i;
 
-	dir_array = find_path("PATH", env);
+	dir_array = find_path(env); /*Elimine un argumento*/
 	for (i = 0; dir_array[i] != NULL; i++)
 	{
 		dir = str_concat(dir_array[i], "/");
