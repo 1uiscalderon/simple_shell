@@ -1,9 +1,9 @@
-#include "shell2.h"
+#include "shell.h"
 
 char **find_path(char *name, char **envp)
 {
-	char *search, *path;
-	char **array_path;
+	char *search = NULL, *path = NULL;
+	char **array_path = NULL;
 	int i, buffsize = 32, old_buffsize = 0;
 
 	for (i = 0; envp[i] != NULL; i++)
@@ -31,6 +31,11 @@ char **find_path(char *name, char **envp)
 			old_buffsize = buffsize;
 			buffsize += 32;
 			array_path = _realloc(array_path, old_buffsize * sizeof(char *), buffsize * sizeof(char *));
+			if (array_path == NULL)
+			{
+				perror("Could not allocate memory");
+				return (NULL); /*revisar*/
+			}
 		}
 		path = strtok(NULL, ":");
 	}
@@ -40,22 +45,23 @@ char **find_path(char *name, char **envp)
 
 char *path(char **token_array, char *env[])
 {
-	char **search, *abs_path, *dir;
+	char **dir_array = NULL, *dir = NULL, *possible_file = NULL;
 	int i;
 
-	search = find_path("PATH", env);
-	for (i = 0; search[i] != NULL; i++)
+	dir_array = find_path("PATH", env);
+	for (i = 0; dir_array[i] != NULL; i++)
 	{
-		dir = str_concat(search[i], "/");
-		abs_path = str_concat(dir, token_array[0]);
-		if (access(abs_path, X_OK) == 0)
+		dir = str_concat(dir_array[i], "/");
+		possible_file = str_concat(dir, token_array[0]);
+		if (access(possible_file, X_OK) == 0)
 		{
+			free(dir_array);
 			free(dir);
-			return (abs_path);
+			return (possible_file);
 		}
 		free(dir);
-		free(abs_path);
+		free(possible_file);
 	}
-	free(search);
+	free(dir_array);
 	return (NULL);
 }
