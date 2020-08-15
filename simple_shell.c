@@ -3,10 +3,10 @@
 int main(int argc, char *argv[], char *env[])
 {
 	int read = 0;
-	int is_builtin;
-	char *command_line;
-	char **token_array;
-	char *command_file;
+	int is_builtin = 0;
+	char *command_line = NULL;
+	char **token_array = NULL;
+	char *command_file = NULL;
 	(void)argc;
 	(void)argv;
 
@@ -19,17 +19,17 @@ int main(int argc, char *argv[], char *env[])
 		command_line = read_line(&read);
 		if (command_line)
 		{
-			is_builtin = built_ins(command_line);
 			token_array = tokenize(command_line);
 			if (token_array)
 			{
-				/*llamar builtins*/
-				/*crear el proceso hijo*/
-				command_file = path(token_array, env);
-				start_new_process(token_array, env, command_file);
-				free(token_array); /*NUEVO CAMBIO*/
-													 /*if (command_file)*/
-				free(command_file);
+				is_builtin = built_ins(token_array, command_line, env);
+				if (is_builtin == 0)
+				{
+					command_file = path(token_array, env);
+					start_new_process(token_array, env, command_file);
+					free(command_file);
+				}
+				free(token_array);
 			}
 			free(command_line);
 		}
@@ -68,8 +68,8 @@ char **tokenize(char *line)
 {
 	int buffsize = 32, old_buffsize = 0, i;
 	const char *delimiters = " \n"; /*QUE DELIMITADORES USAR?*/
-	char *token;
-	char **token_array;
+	char *token = NULL;
+	char **token_array = NULL;
 
 	token_array = malloc(buffsize * sizeof(char *));
 	if (token_array == NULL)
