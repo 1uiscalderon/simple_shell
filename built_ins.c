@@ -1,13 +1,22 @@
 #include "shell.h"
 
-int built_ins(char *command_line)
+int built_ins(char **arguments, char *command_line, char *env[])
 {
-
-	if (_strcmp("exit\n", command_line) == 0)
+	int i;
+	if (_strcmp("exit", arguments[0]) == 0)
 	{
 		free(command_line);
+		free(arguments);
 		exit(EXIT_SUCCESS);
 	}
-	/*if (_strcmp("env", arguments[0]));
-		if (_strcmp("cd", arguments[0]));*/
+	if (_strcmp("env", arguments[0]) == 0)
+	{
+		for (i = 0; env[i] != NULL; i++)
+		{
+			write(STDOUT_FILENO, env[i], _strlen(env[i]));
+		}
+		write(STDOUT_FILENO, "\n", 1);
+		return (1);
+	}
+	return (0);
 }
