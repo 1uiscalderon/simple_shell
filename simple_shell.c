@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[], char *env[])
 {
-	int read = 0;
+	int read = 0, i = 0;
 	int is_builtin = 0;
 	char *command_line = NULL;
 	char **token_array = NULL;
@@ -13,25 +13,29 @@ int main(int argc, char *argv[], char *env[])
 	signal(SIGINT, signal_handler);
 	while (read != -1) /*REVISAR*/
 	{
-		/*imprimir prompt*/
 		write(STDOUT_FILENO, "$ ", 2);
-		/*funcion para almacenar linea de argumentos*/
 		command_line = read_line(&read);
+		if (_strcmp(command_line, "\n") == 0)
+		{
+			free(command_line);
+			command_line = NULL;
+			continue;
+		}
 		if (command_line)
 		{
-			token_array = tokenize(command_line);
+			token_array = strtok_arr(command_line, " \n");
+			free(command_line);
 			if (token_array)
 			{
-				is_builtin = built_ins(token_array, command_line, env);
+				is_builtin = built_ins(token_array, env);
 				if (is_builtin == 0)
 				{
 					command_file = path(token_array, env);
 					start_new_process(token_array, env, command_file);
 					free(command_file);
 				}
-				free(token_array);
+				free_pointer_array(token_array);
 			}
-			free(command_line);
 		}
 	}
 	return (0);
@@ -64,10 +68,10 @@ char *read_line(int *rd)
 	*/
 }
 
-char **tokenize(char *line)
+/**char **tokenize(char *line)
 {
 	int buffsize = 32, old_buffsize = 0, i;
-	const char *delimiters = " \n"; /*QUE DELIMITADORES USAR?*/
+	const char *delimiters = " \n";
 	char *token = NULL;
 	char **token_array = NULL;
 
@@ -75,7 +79,7 @@ char **tokenize(char *line)
 	if (token_array == NULL)
 	{
 		perror("Could not allocate memory");
-		return (NULL); /*DEBO RETORNAR O EXIT?*/
+		return (NULL); 
 	}
 	token = strtok(line, delimiters);
 	for (i = 0; token; i++)
@@ -86,10 +90,10 @@ char **tokenize(char *line)
 			old_buffsize = buffsize;
 			buffsize += 32;
 			token_array = _realloc(token_array, old_buffsize * sizeof(char *), buffsize * sizeof(char *));
-			if (token_array == NULL) /*QUE PASA SI HAY UN PROBLEMA ?*/
+			if (token_array == NULL) 
 			{
 				perror("Could not allocate memory");
-				free(token_array); /*VARIFICAR SI SE DEBE HACER ESE FREE*/
+				free(token_array); 
 				return (NULL);
 			}
 		}
@@ -98,6 +102,7 @@ char **tokenize(char *line)
 	token_array[i] = NULL;
 	return (token_array);
 }
+*/
 
 int start_new_process(char **arguments, char **env, char *command_file)
 {
@@ -117,11 +122,12 @@ int start_new_process(char **arguments, char **env, char *command_file)
 			{
 				if (execve(command_file, arguments, env) == -1)
 				{
-					free(command_file), perror("execve error");
+					free(command_file), free_pointer_array(arguments), perror("execve error");
 					exit(EXIT_FAILURE);
 				}
 			}
 			perror("execve error");
+			free_pointer_array(arguments);
 			exit(EXIT_FAILURE);
 		}
 	default:

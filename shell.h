@@ -21,9 +21,9 @@ int _strcmp(char *s1, char *s2);
 char *str_concat(char *s1, char *s2);
 char **find_path(char **);
 char *path(char **, char **);
-int built_ins(char **, char *command_line, char *env[]);
-int token_counter(char *str, char delim);
-char **strtok_arr(char *str, char delim);
+int built_ins(char **, char *env[]);
+int token_counter(char *str, char *delim);
+char **strtok_arr(char *str, char *delim);
 int _strlen(char *s);
 char *_strdup(char *str);
 

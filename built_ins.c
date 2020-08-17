@@ -1,11 +1,10 @@
 #include "shell.h"
 
-int built_ins(char **arguments, char *command_line, char *env[])
+int built_ins(char **arguments, char *env[])
 {
 	int i;
 	if (_strcmp("exit", arguments[0]) == 0)
 	{
-		free(command_line);
 		free(arguments);
 		exit(EXIT_SUCCESS);
 	}
