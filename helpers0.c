@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "p_s.h"
 
 void signal_handler(int n)
 {
@@ -19,6 +19,34 @@ int _strlen(char *s)
 	for (i = 0; s[i] != '\0'; i++)
 		;
 	return (i);
+}
+
+/**
+ *_calloc - Mimics calloc function using malloc.
+ *@nmemb : number of elements of the allocated memory block.
+ *@size : size of each element of the block.
+ *Return : Pointer to the allocated memory, NULL if fails.
+ */
+
+void *_calloc(unsigned int nmemb, unsigned int size)
+{
+	void *p;
+	char *ptr;
+	unsigned int i, block_size;
+
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+
+	p = malloc(nmemb * size);
+	if (p == NULL)
+		return (p);
+
+	block_size = nmemb * size;
+	ptr = p;
+	for (i = 0; i < block_size; i++)
+		ptr[i] = 0;
+
+	return (p);
 }
 
 /**

@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "p_s.h"
 
 /**
  * *_strcmp - Copies a string
@@ -35,7 +35,7 @@ char *str_concat(char *s1, char *s2)
 		;
 	for (j = 0; s2[j] != '\0'; j++)
 		;
-	s3 = malloc((i + j + 1) * sizeof(char));
+	s3 = _calloc((i + j + 1), sizeof(char));
 
 	if (s3 == NULL)
 		return (NULL);

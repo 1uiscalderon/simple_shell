@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "p_s.h"
 
 int main(int argc, char *argv[], char *env[])
 {
@@ -48,9 +48,10 @@ char *read_line(int *rd)
 	*rd = getline(&line, &size, stdin);
 	if (*rd == -1)
 	{
-		free(line);				 /*DEBO HACER FREE??*/
-		perror("getline"); /*QUE ERROR DEBO ARROJAR?*/
-		return (NULL);		 /*DEBO RETORNAR O EXIT?*/
+		free(line); /*DEBO HACER FREE??*/
+		line = NULL;
+		perror("getline");	/*QUE ERROR DEBO ARROJAR?*/
+		exit(EXIT_SUCCESS); /*DEBO RETORNAR O EXIT?*/
 	}
 	return (line);
 

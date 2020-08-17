@@ -1,11 +1,11 @@
-#include "shell.h"
+#include "p_s.h"
 
 int built_ins(char **arguments, char *env[])
 {
 	int i;
 	if (_strcmp("exit", arguments[0]) == 0)
 	{
-		free(arguments);
+		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);
 	}
 	if (_strcmp("env", arguments[0]) == 0)
