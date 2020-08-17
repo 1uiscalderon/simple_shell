@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "p_s.h"
 
 int token_counter(char *str, char *delim) /*APROBADO*/
 {
@@ -35,7 +35,7 @@ char **strtok_arr(char *str, char *delim)
 	count = token_counter(str, delim);
 	if (count == 0)
 		return (NULL);
-	token_array = malloc((count + 1) * sizeof(char *));
+	token_array = _calloc((count + 1), sizeof(char *));
 	if (token_array == NULL)
 		return (NULL);
 	while (*str && i < count)
@@ -68,7 +68,7 @@ char **strtok_arr(char *str, char *delim)
 				len++;
 				str++;
 			}
-			token_array[i] = malloc(sizeof(char) * (len + 1));
+			token_array[i] = _calloc((len + 1), sizeof(char));
 			if (!token_array[i])
 				return (NULL);
 			while (*copy && *copy != '\n')

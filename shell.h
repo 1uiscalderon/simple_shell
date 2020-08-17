@@ -26,5 +26,6 @@ int token_counter(char *str, char *delim);
 char **strtok_arr(char *str, char *delim);
 int _strlen(char *s);
 char *_strdup(char *str);
+void *_calloc(unsigned int nmemb, unsigned int size);
 
 #endif

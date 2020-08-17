@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "p_s.h"
 
 char **find_path(char **envp)
 {
@@ -24,12 +24,18 @@ char *path(char **token_array, char *envp[])
 {
 	char **dir_array = NULL, *dir = NULL, *possible_file = NULL;
 	int i;
+	if (token_array[0] == NULL)
+	{
+		printf("HAY NULL\n");
+		exit(EXIT_FAILURE);
+	}
 	dir_array = find_path(envp);
 	if (dir_array == NULL)
 		return (NULL);
 	for (i = 0; dir_array[i] != NULL; i++)
 	{
-		dir = str_concat(dir_array[i], "/");						 /*DYNAMIC MEMORY ALLOC*/
+		dir = str_concat(dir_array[i], "/");
+		/*DYNAMIC MEMORY ALLOC*/
 		possible_file = str_concat(dir, token_array[0]); /*DYNAMIC MEMORY ALLOC*/
 		if (access(possible_file, X_OK) == 0)
 		{
