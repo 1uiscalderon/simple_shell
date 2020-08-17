@@ -8,10 +8,10 @@ char **find_path(char **envp)
 
 	for (i = 0; envp[i] != NULL; i++)
 	{
-		path = strtok_arr(envp[i], '='); /*DYNAMIC MEMORY ALLOC*/
+		path = strtok_arr(envp[i], "="); /*DYNAMIC MEMORY ALLOC*/
 		if (_strcmp("PATH", path[0]) == 0)
 		{
-			array_path = strtok_arr(path[1], ':'); /*DYNAMIC MEMORY ALLOC*/
+			array_path = strtok_arr(path[1], ":"); /*DYNAMIC MEMORY ALLOC*/
 			free_pointer_array(path);
 			return (array_path);
 		}
