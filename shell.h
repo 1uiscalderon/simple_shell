@@ -28,5 +28,7 @@ int _strlen(char *s);
 char *_strdup(char *str);
 void *_calloc(unsigned int nmemb, unsigned int size);
 int find_delimiter(char *delim, char str_char);
+void print_env_error(char **arg);
+void print_error(char **arg, char *name);
 
 #endif
