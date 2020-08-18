@@ -40,48 +40,20 @@ char **strtok_arr(char *str, char *delim)
 		return (NULL);
 	while (*str && i < count)
 	{
-		for (k = 0; delim[k]; k++)
-		{
-			if (*str == delim[k])
-			{
-				str_delim = 1;
-				break;
-			}
-			str_delim = 0;
-		}
+		str_delim = find_delimiter(delim, *str);
 		if (str_delim == 1)
 			str++;
 		else
 		{
 			copy = str;
 			while (str_delim == 0 && *str)
-			{
-				for (k = 0; delim[k]; k++)
-				{
-					if (*str == delim[k])
-					{
-						str_delim = 1;
-						break;
-					}
-					str_delim = 0;
-				}
-				len++;
-				str++;
-			}
+				str_delim = find_delimiter(delim, *str), len++, str++;
 			token_array[i] = _calloc((len + 1), sizeof(char));
 			if (!token_array[i])
 				return (NULL);
 			while (*copy && *copy != '\n')
 			{
-				for (k = 0; delim[k]; k++)
-				{
-					if (*copy == delim[k])
-					{
-						copy_delim = 1;
-						break;
-					}
-					copy_delim = 0;
-				}
+				copy_delim = find_delimiter(delim, *copy);
 				if (copy_delim == 0)
 					token_array[i][j] = *copy, copy++, j++;
 				else
@@ -92,4 +64,19 @@ char **strtok_arr(char *str, char *delim)
 	}
 	token_array[i] = NULL;
 	return (token_array);
+}
+
+int find_delimiter(char *delim, char str_char)
+{
+	int i, is_delim;
+	for (i = 0; delim[i]; i++)
+	{
+		if (str_char == delim[i])
+		{
+			is_delim = 1;
+			break;
+		}
+		is_delim = 0;
+	}
+	return (is_delim);
 }
