@@ -1,4 +1,4 @@
-#include "p_s.h"
+#include "shell.h"
 
 int main(int argc, char *argv[], char *env[])
 {
@@ -8,7 +8,7 @@ int main(int argc, char *argv[], char *env[])
 	char **token_array = NULL;
 	char *command_file = NULL;
 	(void)argc;
-	(void)argv;
+	char *p_name = argv[0];
 
 	signal(SIGINT, signal_handler);
 	while (read != -1) /*REVISAR*/
@@ -31,7 +31,7 @@ int main(int argc, char *argv[], char *env[])
 				if (is_builtin == 0)
 				{
 					command_file = path(token_array, env);
-					start_new_process(token_array, env, command_file);
+					start_new_process(token_array, env, command_file, p_name);
 					free(command_file);
 				}
 				free_pointer_array(token_array);
@@ -50,7 +50,7 @@ char *read_line(int *rd)
 	{
 		free(line); /*DEBO HACER FREE??*/
 		line = NULL;
-		perror("getline");	/*QUE ERROR DEBO ARROJAR?*/
+		/*perror("getline");*/	/*QUE ERROR DEBO ARROJAR?*/
 		exit(EXIT_SUCCESS); /*DEBO RETORNAR O EXIT?*/
 	}
 	return (line);
@@ -105,7 +105,7 @@ char *read_line(int *rd)
 }
 */
 
-int start_new_process(char **arguments, char **env, char *command_file)
+int start_new_process(char **arguments, char **env, char *command_file, char *p_name)
 {
 	pid_t pid;
 	int status;
@@ -123,11 +123,13 @@ int start_new_process(char **arguments, char **env, char *command_file)
 			{
 				if (execve(command_file, arguments, env) == -1)
 				{
-					free(command_file), free_pointer_array(arguments), perror("execve error");
+					free(command_file), free_pointer_array(arguments);
+					print_error(arguments, p_name);
 					exit(EXIT_FAILURE);
 				}
 			}
-			perror("execve error");
+			/*perror(NULL);*/
+			print_error(arguments, p_name);
 			free_pointer_array(arguments);
 			exit(EXIT_FAILURE);
 		}
