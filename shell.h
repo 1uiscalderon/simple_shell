@@ -27,5 +27,6 @@ char **strtok_arr(char *str, char *delim);
 int _strlen(char *s);
 char *_strdup(char *str);
 void *_calloc(unsigned int nmemb, unsigned int size);
+int find_delimiter(char *delim, char str_char);
 
 #endif
