@@ -44,7 +44,7 @@ int token_counter(char *str, char *delim) /*APROBADO*/
 char **strtok_arr(char *str, char *delim)
 {
 	char *copy = NULL, **token_array = NULL;
-	int i = 0, j = 0, k = 0, len = 0, count = 0, str_delim = 0, copy_delim = 0;
+	int i = 0, j = 0, len = 0, count = 0, str_delim = 0, copy_delim = 0;
 
 	if (str == 0 || *str == 0)
 		return (NULL);
