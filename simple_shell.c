@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *env[])
 	char *p_name = argv[0];
 
 	signal(SIGINT, signal_handler);
-	while (read != -1) /*REVISAR*/
+	while (read != -1)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
 		command_line = read_line(&read);
@@ -65,10 +65,10 @@ char *read_line(int *rd)
 
 	if (*rd == -1)
 	{
-		free(line); /*DEBO HACER FREE??*/
+		free(line);
 		line = NULL;
-		/*perror("getline");*/	/*QUE ERROR DEBO ARROJAR?*/
-		exit(EXIT_SUCCESS); /*DEBO RETORNAR O EXIT?*/
+		/*perror("getline");*/
+		exit(EXIT_SUCCESS);
 	}
 	return (line);
 }
@@ -113,7 +113,8 @@ int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 			exit(EXIT_FAILURE);
 		}
 	default:
-		do {
+		do
+		{
 			if (waitpid(pid, &status, WUNTRACED) == -1)
 			{
 				perror("waitpid error");

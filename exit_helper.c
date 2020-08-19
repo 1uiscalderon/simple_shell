@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * print_env_error - Prints an error message when printing env
  * combined with another word
@@ -26,9 +27,9 @@ void print_env_error(char **arg)
 
 void print_error(char **arg, char *name)
 {
-char *str1 = NULL, *str2 = NULL, *str3 = NULL;
+	char *str1 = NULL, *str2 = NULL, *str3 = NULL;
 
-	str1 = str_concat(name, ": 1: ");/*not sure here*/
+	str1 = str_concat(name, ": 1: ");
 	str2 = str_concat(str1, arg[0]);
 	free(str1);
 	str3 = str_concat(str2, ": not found\n");

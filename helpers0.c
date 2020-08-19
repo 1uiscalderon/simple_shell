@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * signal_handler - Prevents exiting when pressing ctrl + c
  * @n: Signal

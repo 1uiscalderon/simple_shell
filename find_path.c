@@ -1,4 +1,5 @@
 #include "shell.h"
+
 /**
  * find_path - Returns an array of directories in the PATH.
  * @envp: Enviroment, double pointer where PATH is located
@@ -12,10 +13,10 @@ char **find_path(char **envp)
 
 	for (i = 0; envp[i] != NULL; i++)
 	{
-		path = strtok_arr(envp[i], "="); /*DYNAMIC MEMORY ALLOC*/
+		path = strtok_arr(envp[i], "=");
 		if (_strcmp("PATH", path[0]) == 0)
 		{
-			array_path = strtok_arr(path[1], ":"); /*DYNAMIC MEMORY ALLOC*/
+			array_path = strtok_arr(path[1], ":");
 			free_pointer_array(path);
 			return (array_path);
 		}
@@ -38,7 +39,6 @@ char *path(char **token_array, char *envp[])
 
 	if (token_array[0] == NULL)
 	{
-		printf("HAY NULL\n");
 		exit(EXIT_FAILURE);
 	}
 	dir_array = find_path(envp);
@@ -47,8 +47,7 @@ char *path(char **token_array, char *envp[])
 	for (i = 0; dir_array[i] != NULL; i++)
 	{
 		dir = str_concat(dir_array[i], "/");
-		/*DYNAMIC MEMORY ALLOC*/
-		possible_file = str_concat(dir, token_array[0]); /*DYNAMIC MEMORY ALLOC*/
+		possible_file = str_concat(dir, token_array[0]);
 		if (access(possible_file, X_OK) == 0)
 		{
 			free_pointer_array(dir_array);
