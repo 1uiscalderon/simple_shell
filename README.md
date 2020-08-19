@@ -19,7 +19,7 @@ It is the GNU project's reimplementation of the Bourne shell. It supplies intera
 
 ## simple_shell
 
-The program written for this shell project, is based on the sh shell, and the outputs and errors it produces.
+The program written for this shell project, is based on the sh shell and the outputs and errors it produces.
 
 
 The simple_shell can be used in two different ways:
@@ -37,33 +37,32 @@ When used interactively, the Simple Shell prompts
 the value "$" before reading a command.
 
 ### The Environment
-
 The simple shell creates a copy of the environment to be passed to the programs it will execute.
 
 ### The PATH
-With the function path, the simple_shell searches for the environment variable PATH, and verifies if the first argument of the line written by the user is in fact an executable file. 
+With the function path, the simple shell searches for the environment variable PATH, and verifies if the first argument of the line written by the user is in fact an executable file. 
 
 ### The Built ins
 
-The simple_shell supports the builtins:
+The simple shell supports the builtins:
 * env
 * exit
 
 ### Executing programs
 
-Using the function start_new_process, the simple_shell, call the fork system call. 
+Using the function start_new_process, the simple shell calls the fork system call. 
 
 The child process of this fork uses the function execve to execute the first argument passed by the user, first without concatenating it with any path, and if it is not possible to execute that way, it calls the execve function again to execute it but now concatenated with its corresponding path if it actually has one.
 If the child process cant execute the passed program, it frees the array of arguments and exits with EXIT_FAILURE.
 
-THe parent process waits for the child to terminate, and if there is any problem while waiting, it returns 0.
+The parent process waits for the child to terminate, and if there is any problem while waiting, it returns 0.
 
 ### Freeing memory allocations 
-The simple_shell frees all the dynamically allocated memory used in its functions.
+The simple shell frees all the dynamically allocated memory used in its functions.
 
 ### Exiting the shell
 
-To exit the simple_shell you can either type "exit" or type CRL + D.
+To exit the simple shell you can either type "exit" or type CRL + D.
 
 ## Use case
 
