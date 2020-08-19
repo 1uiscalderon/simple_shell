@@ -1,9 +1,18 @@
-#include "p_s.h"
+#include "shell.h"
+
+/**
+ * token_counter - Counts the number of words that can be tokenized using
+ * the delimiters.
+ * @str: Input from main function, string to be tokenized
+ * @delim: Delimeters to split strings
+ * Return: Number of strings
+ */
 
 int token_counter(char *str, char *delim) /*APROBADO*/
 {
 	int i, j;
 	int str_delim = 0, flag = 0, count = 0;
+
 	for (i = 0; str[i]; i++)
 	{
 		for (j = 0; delim[j]; j++)
@@ -24,6 +33,13 @@ int token_counter(char *str, char *delim) /*APROBADO*/
 	}
 	return (count);
 }
+
+/**
+ * strtok_arr - Creates an Array of strings from the input
+ * @str: Input from main function, string to be tokenized
+ * @delim: Delimeters to split strings
+ * Return: Array of strings
+ */
 
 char **strtok_arr(char *str, char *delim)
 {
@@ -66,9 +82,17 @@ char **strtok_arr(char *str, char *delim)
 	return (token_array);
 }
 
+/**
+ * find_delimiter - Find the delimiter in the string
+ * @str_char: Input from main function, string to be tokenized
+ * @delim: Delimeters to split strings
+ * Return: 1 if it found the delimiter inside de string, else 0
+ */
+
 int find_delimiter(char *delim, char str_char)
 {
 	int i, is_delim;
+
 	for (i = 0; delim[i]; i++)
 	{
 		if (str_char == delim[i])

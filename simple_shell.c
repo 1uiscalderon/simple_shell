@@ -1,5 +1,14 @@
 #include "shell.h"
 
+/**
+ * main- Simple shell that interpretates a single command line
+ * prints a prompt and waits for the user to input a command, if the
+ * command is accepted, will return its result.
+ * @argc: Number of arguments
+ * @argv: Array of arguments
+ * @env: Array of variables
+ * Return: 0 when the loop is finished by command exit or interrupted.
+ */
 int main(int argc, char *argv[], char *env[])
 {
 	int read = 0, i = 0;
@@ -41,11 +50,19 @@ int main(int argc, char *argv[], char *env[])
 	return (0);
 }
 
+/**
+ * read_line - Reads an entire line from stream, storing the address of the
+ * buffer containing the text
+ * @rd: number of characters read.
+ * Return: return the number of characters read, including the delimiter
+ * character, but not including the terminating null byte
+ */
 char *read_line(int *rd)
 {
 	ssize_t size = 0;
 	char *line = NULL;
 	*rd = getline(&line, &size, stdin);
+
 	if (*rd == -1)
 	{
 		free(line); /*DEBO HACER FREE??*/
@@ -54,88 +71,49 @@ char *read_line(int *rd)
 		exit(EXIT_SUCCESS); /*DEBO RETORNAR O EXIT?*/
 	}
 	return (line);
-
-	/**
-	char *line = malloc(1024);
-	while (1)
-	{
-		*rd = read(STDIN_FILENO, line++, 1024);
-		if (*rd == -1)
-		{
-			*line = '\0';
-			return (line);
-		}
-	}
-	*/
 }
 
-/**char **tokenize(char *line)
-{
-	int buffsize = 32, old_buffsize = 0, i;
-	const char *delimiters = " \n";
-	char *token = NULL;
-	char **token_array = NULL;
+/**
+ * start_new_process - Runs the tokenized command through execve and
+ * return the command result if its valid.
+ * @arg: Tokenized input.
+ * @env: Array of enviroment variables.
+ * @command_file: Path the to execute a command if its returned by function.
+ * @p_name: Program name.
+ * Return: If the command was successful, will show result, else run loop again
+ */
 
-	token_array = malloc(buffsize * sizeof(char *));
-	if (token_array == NULL)
-	{
-		perror("Could not allocate memory");
-		return (NULL); 
-	}
-	token = strtok(line, delimiters);
-	for (i = 0; token; i++)
-	{
-		token_array[i] = token;
-		if (i >= buffsize)
-		{
-			old_buffsize = buffsize;
-			buffsize += 32;
-			token_array = _realloc(token_array, old_buffsize * sizeof(char *), buffsize * sizeof(char *));
-			if (token_array == NULL) 
-			{
-				perror("Could not allocate memory");
-				free(token_array); 
-				return (NULL);
-			}
-		}
-		token = strtok(NULL, delimiters);
-	}
-	token_array[i] = NULL;
-	return (token_array);
-}
-*/
-
-int start_new_process(char **arguments, char **env, char *command_file, char *p_name)
+int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 {
 	pid_t pid;
 	int status;
 
 	pid = fork();
+
 	switch (pid)
 	{
 	case -1:
 		perror("fork error");
 		return (0);
 	case 0:
-		if (execve(arguments[0], arguments, env) == -1)
+		if (execve(arg[0], arg, env) == -1)
 		{
 			if (command_file)
 			{
-				if (execve(command_file, arguments, env) == -1)
+				if (execve(command_file, arg, env) == -1)
 				{
-					free(command_file), free_pointer_array(arguments);
-					print_error(arguments, p_name);
+					free(command_file), free_pointer_array(arg);
+					print_error(arg, p_name);
 					exit(EXIT_FAILURE);
 				}
 			}
 			/*perror(NULL);*/
-			print_error(arguments, p_name);
-			free_pointer_array(arguments);
+			print_error(arg, p_name);
+			free_pointer_array(arg);
 			exit(EXIT_FAILURE);
 		}
 	default:
-		do
-		{
+		do {
 			if (waitpid(pid, &status, WUNTRACED) == -1)
 			{
 				perror("waitpid error");

@@ -1,10 +1,10 @@
-#include "p_s.h"
+#include "shell.h"
 
 /**
- * *_strcmp - Copies a string
- *@s1: is a parameter
- *@s2: is a parameter
- *Return: res parameter
+ * _strcmp - Compares a string with another one
+ * @s1: First string
+ * @s2: Second string
+ * Return: If both strings are the same 0 is returned, else a diferent number
  */
 int _strcmp(char *s1, char *s2)
 {
