@@ -7,19 +7,18 @@
 .sp
 .SH DESCRIPTION
 Simple_Shell is an sh compatible command interpreter, that executes an imput given by the user, if it is valid. It works the same way the
-.B sh
-program does.
+.B sh program does.
 .sp
-.B Run
-.RS
-It is recomended  that this program is compiled with the following command:
+It is recomended  that this program is cqompiled with the following command:
 .B gcc -Wall -Werror -Wextra -pedantic *.c -o simple_shell
 , enter
 .B ./simple_shell
 to execute the Simple_Shell. This program can bu used in two different ways:
+.nf
 -Interpretation of shell scripts.
 -Interactivve use.
-.B Overview
+.SS
+.B Overview:
 Simple_Shell interprets a given command entered by the user through an input. After the prompt is printed and the command line is stored in a buffer, 
 it is divided by the function strtok_arr, into an array of pointers (the last one pointing to NULL) that point to strings, each one containing a 
 command or argument passed to the shell.The core process of the program is forked into a child process, using the function fork(), and in that child process
@@ -29,20 +28,21 @@ If the child process cant execute the passed program, it frees the array of argu
 and if there is any problem while waiting, it returns 0.
 .sp
 .SH INVOCATION
-An interactive shell is one started without non-option arguments like this './simple_shell'
+An interactive shell is one started without non-option arguments like this './simple_shell'.
 .sp
-.B Built ins
-.RS
+.SH Built ins
 The simple_shell supports the builtins: env and exit. The function built_ins verifies if the first argument passed by the user is “env” or “exit” and handles them the same way as sh.
-.B The Path
-.RS
+.sp
+.SH The Path
 If the program does not find that the command in the input is a match with the built ins, with the function path, the simple_shell searches for the environment variable PATH, 
 and verifies if the first argument of the line written by the user is in fact an executable file. if it does not find it, it will send an error message.
 .sp
-.sh EXAMPLES
-.sp $ ls -l
-.RS
+.SH EXAMPLES
+.sp 
+.B $ ls -l
+.sp
 $ ls -l
+.nf
 total 64
 -rwxrwxr-x 1 vagrant vagrant 14124 Aug 19 00:18 a.out
 -rw-rw-r-- 1 vagrant vagrant   169 Aug 19 14:01 AUTHORS
@@ -57,17 +57,28 @@ total 64
 -rw-rw-r-- 1 vagrant vagrant   970 Aug 19 00:40 shell.h
 -rw-rw-r-- 1 vagrant vagrant  2819 Aug 19 14:01 simple_shell.c
 -rw-rw-r-- 1 vagrant vagrant  2223 Aug 19 00:40 token_array.c
-.RS
+.sp
 will print the files in the current working directory in long format.
-.RE
+.sp
+.sh
 .B $ exit
-.RS
+.sp
 Will exit the Simple_Shell.
-.RE
+.sp
+.B Non-interactive mode:
+.sp
+$ echo "ls -l" | ./simple_shell
+.sp
+Will print the files in your current directory using ./simple.shell program in long format.
+.sp
+.SH RETURN
+.sp
+simple_shell will exit with status 0 unless an error occurs.
 .SH SEE ALSO
-Bash Reference Manual, Brian Fox and Chet Ramey
-The Gnu Readline Library, Brian Fox and Chet Ramey
-The Gnu History Library, Brian Fox and Chet Ramey
+.nf
+-Bash Reference Manual, Brian Fox and Chet Ramey
+-The Gnu Readline Library, Brian Fox and Chet Ramey
+-The Gnu History Library, Brian Fox and Chet Ramey
 .sp
 .SH BUGS
 Some regular shell builtins are not implemented in Simple_Shell, and trying to execute them
