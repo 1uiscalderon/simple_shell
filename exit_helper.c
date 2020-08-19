@@ -28,7 +28,7 @@ void print_error(char **arg, char *name)
 {
 char *str1 = NULL, *str2 = NULL, *str3 = NULL;
 
-	str1 = str_concat(name, ": 1: ");
+	str1 = str_concat(name, ": 1: ");/*not sure here*/
 	str2 = str_concat(str1, arg[0]);
 	free(str1);
 	str3 = str_concat(str2, ": not found\n");
