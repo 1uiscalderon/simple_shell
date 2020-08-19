@@ -13,6 +13,7 @@ int built_ins(char **arguments, char *env[])
 
 	if (_strcmp("exit", arguments[0]) == 0)
 	{
+
 		if (arguments[1] != NULL)
 		{
 			free_pointer_array(arguments);/*add*/
@@ -29,12 +30,12 @@ int built_ins(char **arguments, char *env[])
 			{
 				write(STDOUT_FILENO, env[i], _strlen(env[i]));
 				if (env[i + 1] != NULL)
-					write(STDOUT_FILENO, "\n", 1);
+				write(STDOUT_FILENO, "\n", 1);
 			}
 			write(STDOUT_FILENO, "\n", 1);
 		}
 		else
-			print_env_error(arguments);
+		print_env_error(arguments);
 		return (1);
 	}
 	return (0);
