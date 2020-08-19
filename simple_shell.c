@@ -11,14 +11,14 @@
  */
 int main(int argc, char *argv[], char *env[])
 {
-	int read = 0, i = 0;
-	int is_builtin = 0;
+	int read = 0, is_builtin = 0;
+	char *p_name = argv[0];
 	char *command_line = NULL;
 	char **token_array = NULL;
 	char *command_file = NULL;
 	(void)argc;
-	char *p_name = argv[0];
 
+	p_name = argv[0];
 	signal(SIGINT, signal_handler);
 	while (read != -1)
 	{
@@ -59,7 +59,7 @@ int main(int argc, char *argv[], char *env[])
  */
 char *read_line(int *rd)
 {
-	ssize_t size = 0;
+	size_t size = 0;
 	char *line = NULL;
 	*rd = getline(&line, &size, stdin);
 
@@ -110,10 +110,11 @@ int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 			/*perror(NULL);*/
 			print_error(arg, p_name);
 			free_pointer_array(arg);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 	default:
-		do {
+		do
+		{
 			if (waitpid(pid, &status, WUNTRACED) == -1)
 			{
 				perror("waitpid error");
