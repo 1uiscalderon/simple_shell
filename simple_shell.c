@@ -104,13 +104,13 @@ int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 				{
 					free(command_file), free_pointer_array(arg);
 					print_error(arg, p_name);
-					exit(EXIT_FAILURE);
+					exit(127);
 				}
 			}
 			/*perror(NULL);*/
 			print_error(arg, p_name);
 			free_pointer_array(arg);
-			exit(EXIT_SUCCESS);
+			exit(127);
 		}
 	default:
 		do {
