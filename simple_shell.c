@@ -113,8 +113,7 @@ int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 			exit(EXIT_SUCCESS);
 		}
 	default:
-		do
-		{
+		do {
 			if (waitpid(pid, &status, WUNTRACED) == -1)
 			{
 				perror("waitpid error");
