@@ -1,5 +1,8 @@
-#include "p_s.h"
-
+#include "shell.h"
+/**
+ * signal_handler - Prevents exiting when pressing ctrl + c
+ * @n: Signal
+ */
 void signal_handler(int n)
 {
 	if (n == SIGINT)
@@ -23,9 +26,9 @@ int _strlen(char *s)
 
 /**
  *_calloc - Mimics calloc function using malloc.
- *@nmemb : number of elements of the allocated memory block.
- *@size : size of each element of the block.
- *Return : Pointer to the allocated memory, NULL if fails.
+ *@nmemb: number of elements of the allocated memory block.
+ *@size: size of each element of the block.
+ *Return: Pointer to the allocated memory, NULL if fails.
  */
 
 void *_calloc(unsigned int nmemb, unsigned int size)
@@ -97,9 +100,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	return (p1);
 }
 
+/**
+ * free_pointer_array - Free all pointers in an Array of strings
+ * @token_array: Array of pointers
+ */
 void free_pointer_array(char **token_array)
 {
 	int i;
+
 	if (token_array == NULL)
 		return;
 

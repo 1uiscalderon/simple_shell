@@ -1,5 +1,9 @@
-#include "p_s.h"
-
+#include "shell.h"
+/**
+ * find_path - Returns an array of directories in the PATH.
+ * @envp: Enviroment, double pointer where PATH is located
+ * Return: Array of strings
+ */
 char **find_path(char **envp)
 {
 	char **array_path = NULL;
@@ -20,10 +24,18 @@ char **find_path(char **envp)
 	return (NULL);
 }
 
+/**
+ * path - Returns the path to be executed with execve.
+ * @token_array: Double pointer with the input
+ * @envp: Enviroment
+ * Return: path to be executed if found.
+ */
+
 char *path(char **token_array, char *envp[])
 {
 	char **dir_array = NULL, *dir = NULL, *possible_file = NULL;
 	int i;
+
 	if (token_array[0] == NULL)
 	{
 		printf("HAY NULL\n");

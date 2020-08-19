@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+ * print_env_error - Prints an error message when printing env
+ * combined with another word
+ * @arg: Array of arguments from the input(Array_tokens)
+ */
 
 void print_env_error(char **arg)
 {
@@ -12,6 +17,12 @@ void print_env_error(char **arg)
 	write(2, str3, _strlen(str3));
 	free(str3);
 }
+
+/**
+ * print_error - Prints an error message when execve cant execute a line
+ * @arg: Array of arguments from the input(Array_tokens)
+ * @name: Name of the shell program
+ */
 
 void print_error(char **arg, char *name)
 {
