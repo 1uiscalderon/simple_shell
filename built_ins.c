@@ -17,7 +17,7 @@ int built_ins(char **arguments, char *env[])
 		if (arguments[1] != NULL)
 		{
 			free_pointer_array(arguments);/*add*/
-			exit(EXIT_FAILURE);
+			exit(-1);
 		}
 		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);
