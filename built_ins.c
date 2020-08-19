@@ -19,7 +19,7 @@ int built_ins(char **arguments, char *env[], char *name)
 			
 			print_exit_error(arguments, name);
 			free_pointer_array(arguments);/*add*/
-			return(1);
+			exit(EXIT_SUCCESS);
 		}
 		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);
