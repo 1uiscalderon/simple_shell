@@ -7,7 +7,7 @@
  * Return: 1 on success
  */
 
-int built_ins(char **arguments, char *env[])
+int built_ins(char **arguments, char *env[], char *name)
 {
 	int i;
 
@@ -16,8 +16,10 @@ int built_ins(char **arguments, char *env[])
 
 		if (arguments[1] != NULL)
 		{
+			
+			print_exit_error(arguments, name);
 			free_pointer_array(arguments);/*add*/
-			exit(128);
+			exit(EXIT_SUCCESS);
 		}
 		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);

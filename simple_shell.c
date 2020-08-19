@@ -36,7 +36,7 @@ int main(int argc, char *argv[], char *env[])
 			free(command_line);
 			if (token_array)
 			{
-				is_builtin = built_ins(token_array, env);
+				is_builtin = built_ins(token_array, env, p_name);
 				if (is_builtin == 0)
 				{
 					command_file = path(token_array, env);
