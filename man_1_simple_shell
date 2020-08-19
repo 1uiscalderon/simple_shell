@@ -1,0 +1,76 @@
+.TH man 1 "18 August 2020" "Vers 1.0" "SIMPLE_SHELL"
+.SH NAME
+.B Simple Shell
+- command line interpreter
+.SH SYNOPSIS
+.B $ [command] -[options] [arguments]
+.sp
+.SH DESCRIPTION
+Simple_Shell is an sh compatible command interpreter, that executes an imput given by the user, if it is valid. It works the same way the
+.B sh
+program does.
+.sp
+.B Run
+.RS
+It is recomended  that this program is compiled with the following command:
+.B gcc -Wall -Werror -Wextra -pedantic *.c -o simple_shell
+, enter
+.B ./simple_shell
+to execute the Simple_Shell. This program can bu used in two different ways:
+-Interpretation of shell scripts.
+-Interactivve use.
+.B Overview
+Simple_Shell interprets a given command entered by the user through an input. After the prompt is printed and the command line is stored in a buffer, 
+it is divided by the function strtok_arr, into an array of pointers (the last one pointing to NULL) that point to strings, each one containing a 
+command or argument passed to the shell.The core process of the program is forked into a child process, using the function fork(), and in that child process
+execve() will be called. This function will use the first argument passed by the user, first without concatenating it with any path, and if it is not possible 
+to execute that way, it calls the execve function again to execute it but now concatenated with its corresponding path if it actually has one.
+If the child process cant execute the passed program, it frees the array of arguments and exits with EXIT_FAILURE. The parent process waits for the child to terminate,
+and if there is any problem while waiting, it returns 0.
+.sp
+.SH INVOCATION
+An interactive shell is one started without non-option arguments like this './simple_shell'
+.sp
+.B Built ins
+.RS
+The simple_shell supports the builtins: env and exit. The function built_ins verifies if the first argument passed by the user is “env” or “exit” and handles them the same way as sh.
+.B The Path
+.RS
+If the program does not find that the command in the input is a match with the built ins, with the function path, the simple_shell searches for the environment variable PATH, 
+and verifies if the first argument of the line written by the user is in fact an executable file. if it does not find it, it will send an error message.
+.sp
+.sh EXAMPLES
+.sp $ ls -l
+.RS
+$ ls -l
+total 64
+-rwxrwxr-x 1 vagrant vagrant 14124 Aug 19 00:18 a.out
+-rw-rw-r-- 1 vagrant vagrant   169 Aug 19 14:01 AUTHORS
+-rw-rw-r-- 1 vagrant vagrant   673 Aug 19 00:40 built_ins.c
+-rw-rw-r-- 1 vagrant vagrant   916 Aug 19 14:01 exit_helper.c
+-rw-rw-r-- 1 vagrant vagrant  1291 Aug 19 14:01 find_path.c
+-rw-rw-r-- 1 vagrant vagrant  2135 Aug 19 14:01 helpers0.c
+-rw-rw-r-- 1 vagrant vagrant   899 Aug 19 00:40 helpers1.c
+-rw-rw-r-- 1 vagrant vagrant   433 Aug 19 00:40 helpers2.c
+-rw-rw-r-- 1 vagrant vagrant   750 Aug 19 03:31 man_1_simple_shell
+-rw-rw-r-- 1 vagrant vagrant     5 Aug 10 19:57 README.md
+-rw-rw-r-- 1 vagrant vagrant   970 Aug 19 00:40 shell.h
+-rw-rw-r-- 1 vagrant vagrant  2819 Aug 19 14:01 simple_shell.c
+-rw-rw-r-- 1 vagrant vagrant  2223 Aug 19 00:40 token_array.c
+.RS
+will print the files in the current working directory in long format.
+.RE
+.B $ exit
+.RS
+Will exit the Simple_Shell.
+.RE
+.SH SEE ALSO
+Bash Reference Manual, Brian Fox and Chet Ramey
+The Gnu Readline Library, Brian Fox and Chet Ramey
+The Gnu History Library, Brian Fox and Chet Ramey
+.sp
+.SH BUGS
+Some regular shell builtins are not implemented in Simple_Shell, and trying to execute them
+will end up in unexpected behavior, or error message.
+.SH AUTHORS
+Luis Miguel Calderon and Tomas Gomez.
