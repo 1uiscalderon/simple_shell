@@ -68,7 +68,7 @@ char *read_line(int *rd)
 		free(line);
 		line = NULL;
 		/*perror("getline");*/
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
 	return (line);
 }
@@ -104,7 +104,7 @@ int start_new_process(char **arg, char **env, char *command_file, char *p_name)
 				{
 					free(command_file), free_pointer_array(arg);
 					print_error(arg, p_name);
-					exit(EXIT_FAILURE);
+					exit(EXIT_SUCCESS);
 				}
 			}
 			/*perror(NULL);*/
