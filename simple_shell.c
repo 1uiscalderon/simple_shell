@@ -12,8 +12,7 @@
 int main(int argc, char *argv[], char *env[])
 {
 	int read = 0, is_builtin = 0;
-	char *p_name = argv[0];
-	char *command_line = NULL;
+	char *p_name = argv[0], *command_line = NULL;
 	char **token_array = NULL;
 	char *command_file = NULL;
 	(void)argc;
@@ -22,6 +21,7 @@ int main(int argc, char *argv[], char *env[])
 	signal(SIGINT, signal_handler);
 	while (read != -1)
 	{
+		if (isatty(STDIN_FILENO) == 1)
 		write(STDOUT_FILENO, "$ ", 2);
 		command_line = read_line(&read);
 		if (_strcmp(command_line, "\n") == 0)
