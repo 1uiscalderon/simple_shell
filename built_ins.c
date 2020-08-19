@@ -11,8 +11,9 @@ int built_ins(char **arguments, char *env[])
 {
 	int i;
 
-	if ((_strcmp("exit", arguments[0]) == 0) && arguments[1] == NULL)
+	if (_strcmp("exit", arguments[0]) == 0)
 	{
+
 		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);
 	}
