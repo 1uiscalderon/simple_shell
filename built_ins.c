@@ -14,6 +14,11 @@ int built_ins(char **arguments, char *env[])
 	if (_strcmp("exit", arguments[0]) == 0)
 	{
 
+		if (arguments[1] != NULL)
+		{
+			free_pointer_array(arguments);/*add*/
+			exit(EXIT_FAILURE);
+		}
 		free_pointer_array(arguments);
 		exit(EXIT_SUCCESS);
 	}
