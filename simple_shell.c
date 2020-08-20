@@ -32,7 +32,7 @@ int main(int argc, char *argv[], char *env[])
 		}
 		if (command_line)
 		{
-			token_array = strtok_arr(command_line, " \n\t\r");
+			token_array = strtok_arr(command_line, " \n\t\r\f\v");
 			free(command_line);
 			if (token_array)
 			{
