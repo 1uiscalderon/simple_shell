@@ -19,10 +19,10 @@ to execute the Simple_Shell. This program can bu used in two different ways:
 -Interactivve use.
 .SS
 .B Overview:
-Simple_Shell interprets a given command entered by the user through an input. After the prompt is printed and the command line is stored in a buffer, 
-it is divided by the function strtok_arr, into an array of pointers (the last one pointing to NULL) that point to strings, each one containing a 
+Simple_Shell interprets a given command entered by the user through an input. After the prompt is printed and the command line is stored in a buffer,
+it is divided by the function strtok_arr, into an array of pointers (the last one pointing to NULL) that point to strings, each one containing a
 command or argument passed to the shell.The core process of the program is forked into a child process, using the function fork(), and in that child process
-execve() will be called. This function will use the first argument passed by the user, first without concatenating it with any path, and if it is not possible 
+execve() will be called. This function will use the first argument passed by the user, first without concatenating it with any path, and if it is not possible
 to execute that way, it calls the execve function again to execute it but now concatenated with its corresponding path if it actually has one.
 If the child process cant execute the passed program, it frees the array of arguments and exits with EXIT_FAILURE. The parent process waits for the child to terminate,
 and if there is any problem while waiting, it returns 0.
@@ -34,11 +34,11 @@ An interactive shell is one started without non-option arguments like this './si
 The simple_shell supports the builtins: env and exit. The function built_ins verifies if the first argument passed by the user is “env” or “exit” and handles them the same way as sh.
 .sp
 .SH The Path
-If the program does not find that the command in the input is a match with the built ins, with the function path, the simple_shell searches for the environment variable PATH, 
+If the program does not find that the command in the input is a match with the built ins, with the function path, the simple_shell searches for the environment variable PATH,
 and verifies if the first argument of the line written by the user is in fact an executable file. if it does not find it, it will send an error message.
 .sp
 .SH EXAMPLES
-.sp 
+.sp
 .B $ ls -l
 .sp
 $ ls -l
