@@ -4,6 +4,7 @@
  * built_ins - Check if the commands are builtin
  * @arguments: Tokenized input
  * @env: Array of enviroment variables
+ * @name: name of program
  * Return: 1 on success
  */
 
@@ -16,7 +17,6 @@ int built_ins(char **arguments, char *env[], char *name)
 
 		if (arguments[1] != NULL)
 		{
-			
 			print_exit_error(arguments, name);
 			free_pointer_array(arguments);/*add*/
 			exit(EXIT_SUCCESS);
